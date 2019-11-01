@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OrderApp.API.Data;
+using OrderApp.Domain.Interfaces;
 using OrderApp.Infrastructure.Context;
+using OrderApp.Infrastructure.Repository;
 
 namespace OrderApp.API
 {
@@ -25,6 +27,10 @@ namespace OrderApp.API
             services.AddDbContext<OrderAppDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddScoped<OrderAppDbContext>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
